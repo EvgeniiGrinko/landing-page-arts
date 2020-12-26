@@ -1,3 +1,5 @@
+import {postData} from '../services/requests';
+
 // import checkNumInputs from "./checkNumInputs"
 const forms = () => {
     const form = document.querySelectorAll('form'),
@@ -43,13 +45,7 @@ const forms = () => {
         })
 
     })
-    const postData = async (url, data) => {
-            let res = await fetch(url, {
-            method: 'POST',
-            body: data
-        });
-        return await res.text();
-    }
+    
 
     form.forEach(item => {
         item.addEventListener('submit', (e)=>{
