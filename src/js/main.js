@@ -9,6 +9,7 @@ import filter from './modules/filter';
 import pictureSize from './modules/pictureSize';
 import accordion from './modules/accordion';
 import burger from './modules/burger';
+import scrolling from './modules/scrolling';
 
 window.addEventListener('DOMContentLoaded', () => {
 'use strict';
@@ -25,5 +26,6 @@ calc('#size', '#material', '#options', '.promocode', '.calc-price');
 filter();
 pictureSize('.sizes-block');
 accordion('.accordion-heading');
-burger('.burger-menu', '.burger')
+burger('.burger-menu', '.burger');
+scrolling('.pageup');
 });
