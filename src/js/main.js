@@ -23,5 +23,5 @@ showMoreStyles('.button-styles', '#styles .row');
 calc('#size', '#material', '#options', '.promocode', '.calc-price');
 filter();
 pictureSize('.sizes-block');
-accordion('.accordion-heading', '.accordion-block' )
+accordion('.accordion-heading' )
 });
