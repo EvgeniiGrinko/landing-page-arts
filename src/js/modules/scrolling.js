@@ -16,44 +16,45 @@ const scrolling = (upSelector) => {
             let scrollTop = Math.round(body.scrollTop || element.scrollTop);
             if(this.hash !== ''){ 
                 event.preventDefault();
-                let hashEleement = document.querySelector(this.hash),
+                let hashElement = document.querySelector(this.hash),
                 hashElementTop = 0;
 
-                while (hashEleement.offsetParent) {
-                    hashElementTop += hashEleement.offsetTop;
-                    hashElementTop = hashEleement.offsetParent;
+                while (hashElement.offsetParent) {
+                    hashElementTop += hashElement.offsetTop;
+                    hashElement = hashElement.offsetParent;
 
                 }
                 hashElementTop = Math.round(hashElementTop);
-                smoothScroll(hashElementTop, hashElementTop, this.hash)
+                smoothScroll(scrollTop, hashElementTop, this.hash);
             }
         });
-        const smoothScroll = (from, to, hash) => {
-            let timeInterval = 1;
-            let perScrollTop,
-            speed;
-            if (to > from) {
-                speed = 30;
-            } else {
-                speed = -30;
-            }
-            let move = setInterval(function () {
-                let scrollTop = Math.round(body.scrollTop || element.scrollTop);
-                if (
-                    prevSrollTop === scrollTop || 
-                    (to > from && scrollTop >= to ) || 
-                    (to < from && scrollTop <= to)
-                ) {
-                    clearInterval(move);
-                    history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, '') + hash)
-
-                } else {
-                    body.scrollTop += speed;
-                    element.scrollTop += speed;
-                    prevSrollTop = scrollTop;
-                }
-            }, timeInterval);
+        
+    }
+    const smoothScroll = (from, to, hash) => {
+        let timeInterval = 1;
+        let prevScrollTop,
+        speed;
+        if (to > from) {
+            speed = 30;
+        } else {
+            speed = -30;
         }
+        let move = setInterval(function() {
+            let scrollTop = Math.round(body.scrollTop || element.scrollTop);
+            if (
+                prevScrollTop === scrollTop || 
+                (to > from && scrollTop >= to ) || 
+                (to < from && scrollTop <= to)
+            ) {
+                clearInterval(move);
+                history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, '') + hash);
+
+            } else {
+                body.scrollTop += speed;
+                element.scrollTop += speed;
+                prevScrollTop = scrollTop;
+            }
+        }, timeInterval);
     }
     calcScroll();
 }
