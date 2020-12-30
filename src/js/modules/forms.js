@@ -1,59 +1,53 @@
 import {postData} from '../services/requests';
 
-// import checkNumInputs from "./checkNumInputs"
 const forms = () => {
     const form = document.querySelectorAll('form'),
-        inputs = document.querySelectorAll('input'),
-        upload = document.querySelectorAll('[name="upload"]');
-
-        // checkNumInputs('input[name="user_phone"]')
-
+          inputs = document.querySelectorAll('input'),
+          upload = document.querySelectorAll('[name="upload"]');
+    
     const message = {
-        loading: "Загрузка",
-        success: "Спасибо, мы с вами скоро свяжемся!",
-        failure: "Что-то пошло не так...",
+        loading: 'Загрузка...',
+        success: 'Спасибо! Скоро мы с вами свяжемся',
+        failure: 'Что-то пошло не так...',
         spinner: 'assets/img/spinner.gif',
         ok: 'assets/img/ok.png',
-        fail: 'assets/img/fail.png',
-
-    }
+        fail: 'assets/img/fail.png'
+    };
 
     const path = {
         designer: 'assets/server.php',
         question: 'assets/question.php'
-    }
+    };
 
-    const clearInputs = ()=>{
+    const clearInputs = () => {
         inputs.forEach(item => {
-            item.value = ""
+            item.value = '';
         });
         upload.forEach(item => {
-            item.previousElementSibling.textContent = 'Файл не выбран'
-        })
-
-    }
+            item.previousElementSibling.textContent = "Файл не выбран";
+        });
+    };
 
     upload.forEach(item => {
-        item.addEventListener('input', ()=> {
+        item.addEventListener('input', () => {
             console.log(item.files[0]);
             let dots;
-            const arr =  item.files[0].name.split('.');
-           arr[0].length > 6 ? dots = '...' : dots = '.';
+            const arr = item.files[0].name.split('.');
+
+            arr[0].length > 6 ? dots = "..." : dots = '.';
             const name = arr[0].substring(0, 6) + dots + arr[1];
             item.previousElementSibling.textContent = name;
-            
-        })
-
-    })
-    
+        });
+    });
 
     form.forEach(item => {
-        item.addEventListener('submit', (e)=>{
+        item.addEventListener('submit', (e) => {
             e.preventDefault();
+
             let statusMessage = document.createElement('div');
             statusMessage.classList.add('status');
             item.parentNode.appendChild(statusMessage);
-            
+
             item.classList.add('animated', 'fadeOutUp');
             setTimeout(() => {
                 item.style.display = 'none';
@@ -68,40 +62,32 @@ const forms = () => {
             textMessage.textContent = message.loading;
             statusMessage.appendChild(textMessage);
 
-
-
-
             const formData = new FormData(item);
             let api;
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
+
             postData(api, formData)
                 .then(res => {
                     console.log(res);
                     statusImg.setAttribute('src', message.ok);
                     textMessage.textContent = message.success;
-                    
-                }).catch((error)=>{
-                    statusImg.setAttribute('src', message.fail)
+                })
+                .catch(() => {
+                    statusImg.setAttribute('src', message.fail);
                     textMessage.textContent = message.failure;
-                    console.log("Error " + error)
-
-                }).finally(()=>{
+                })
+                .finally(() => {
                     clearInputs();
                     setTimeout(() => {
                         statusMessage.remove();
                         item.style.display = 'block';
-                        item.classList.remove('fadeOutUp')
-                        item.classList.add('fadeInUp')
+                        item.classList.remove('fadeOutUp');
+                        item.classList.add('fadeInUp');
                     }, 5000);
-                    
-                })
-
-            
-
-        })
-    })
-
-}
+                });
+        });
+    });
+};
 
 export default forms;
